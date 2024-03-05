@@ -1,17 +1,26 @@
 package main
 
 import (
-	"fmt"
-	"github.com/go-gota/gota/series"
+    "os"
+    "github.com/wcharczuk/go-chart"
 )
 
 func main() {
-	fmt.Println(series.New([]string{"z", "y", "d", "e"}, series.String, "col"))
-	
-	a := map[string]series.Type{
-		"A": series.String,
-		"D": series.Bool,
-	}
+    // Create a new bar chart
+    graph := chart.BarChart{
+        Title: "Sales Data",
+        Background: chart.Style{
+            Padding: chart.Box{Top: 40, Left: 10},
+        },
+        Bars: []chart.Value{
+            {Value: 10, Label: "Product A"},
+            {Value: 20, Label: "Product B"},
+            {Value: 30, Label: "Product C"},
+        },
+    }
 
-	fmt.Println(a)
+    // Save the chart to an HTML file
+    f, _ := os.Create("chart.html")
+    defer f.Close()
+    graph.Render(chart.SVG, f)
 }
